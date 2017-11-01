@@ -53,7 +53,7 @@ int partition(int left, int right, int pivot) {
 
     // This construct is incremented and decrementing the respective pointers and
     // comparing their values with the indicated pivot point for the quicksort.
-    // It breaks as soon as the pointers overlap.
+    // It breaks as soon as a value on the left of the pivot is >= to a value on the right.
     while(true) {
         while(intArray[++leftPointer] < pivot)
         {
@@ -65,12 +65,15 @@ int partition(int left, int right, int pivot) {
         if(leftPointer >= rightPointer) {
             break;
         } else {
-            // swaps elements to do the sort
+            // swaps elements across the pivot point. Something that is smaller than the pivot
+            // will then end up on the left side of it. Larger ends up on the right side of it.
             printf("items swapped: %d, %d\n", intArray[leftPointer], intArray[rightPointer]);
             swap(leftPointer, rightPointer);
         }
     }
-    // swaps the pivot point to something new
+    // swaps the pivot point to something new after the above happens.
+    // in this algorithm, the pivot starts as the far right entry in the array,
+    // so the pivot will swap based on the position of the pointers for any given pass.
     printf("pivot swapped: %d, %d\n", intArray[leftPointer], intArray[right]);
     swap(leftPointer, right);
     printf("Updated Array: ");
