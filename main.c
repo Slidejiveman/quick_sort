@@ -8,7 +8,7 @@ int intArray[MAX] = {4, 6, 3, 2, 1, 9, 7};
 /**
  * This method is used to print a line of characters
  * to make the console output more human readable.
- * @param count
+ * @param count - the number of characters to print.
  */
 void printline(int count) {
     for(int i = 0; i < count - 1; i++) {
