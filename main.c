@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define MAX 7
+#define MAX 7 //The maximum size of the array
 
+// The array of elements to sort
 int intArray[MAX] = {4, 6, 3, 2, 1, 9, 7};
 
 /**
