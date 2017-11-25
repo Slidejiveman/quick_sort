@@ -3,6 +3,12 @@
 #include <time.h>
 #include <stdlib.h>
 
+#ifdef __CYGWIN__
+# define CLOCK CLOCK_MONOTONIC
+#else
+# define CLOCK CLOCK_MONOTONIC_RAW
+#endif
+
 #define MAX 10000 //The maximum size of the array
 
 // The array of elements to sort
@@ -96,7 +102,7 @@ int partition(int left, int right, int pivot) {
 
 /**
  * Quick sort is a recursive algorithm that breaks the array into two different sections at the partition point.
- * Each of these is sorted. TODO: Add timers!
+ * Each of these is sorted.
  * @param left - the point on the left side of the array to start with
  * @param right - the point on the right side of the array to start with
  */
@@ -112,21 +118,49 @@ void quick_sort(int left, int right) {
 }
 
 /**
+ * Converts the time spec to milliseconds.
+ *
+ * @param ts - A pointer to a timespec
+ * @return The wall time in milliseconds
+ */
+double ts_to_ms(struct timespec* ts) {
+    return (((double) ts->tv_sec) * 1000.0) + (((double) ts->tv_nsec) / 1000000.0);
+}
+
+/**
  * The entry point of the program.
  * @return The status code indicating success or failure.
  */
 int main() {
+
+    struct timespec start, finish;
+
     initialize_array();
     printf("Input Array: ");
     display();
     printline(50);
+
+    // Collect the processor start time
     clock_t  begin = clock();
+    // Collect the wall start time
+    clock_gettime(CLOCK, &start);
+    // perform the calculation to measure
     quick_sort(0, MAX-1); // start the sort out with the first and last indices of the array
+    // Collect the processor end time
     clock_t end = clock();
+    // Collect the wall end time
+    clock_gettime(CLOCK, &finish);
+    // Calculate the processor time
     double time_spent = (double) (end - begin) / CLOCKS_PER_SEC;
+    // Calculatae the wall time
+    double start_time = ts_to_ms(&start);
+    double finish_time = ts_to_ms(&finish);
+    double wall_time = finish_time - start_time;
+
     printf("Ouput Array: ");
     display();
     printline(50);
     printf("\nExecution Time: %f", time_spent);
+    printf("\nWall Clock Time: %f", wall_time);
     return 0;
 }
