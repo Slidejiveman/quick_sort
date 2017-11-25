@@ -1,10 +1,22 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <time.h>
+#include <stdlib.h>
 
-#define MAX 7 //The maximum size of the array
+#define MAX 10000 //The maximum size of the array
 
 // The array of elements to sort
-int intArray[MAX] = {4, 6, 3, 2, 1, 9, 7};
+int intArray[MAX] = {};
+
+/**
+ * Initializes the array with MAX number of random numbers.
+ */
+void initialize_array() {
+    srand(NULL);
+    for (int i = 0; i < MAX; i++) {
+        intArray[i] = rand();
+    }
+}
 
 /**
  * This method is used to print a line of characters
@@ -84,7 +96,7 @@ int partition(int left, int right, int pivot) {
 
 /**
  * Quick sort is a recursive algorithm that breaks the array into two different sections at the partition point.
- * Each of these is sorted.
+ * Each of these is sorted. TODO: Add timers!
  * @param left - the point on the left side of the array to start with
  * @param right - the point on the right side of the array to start with
  */
@@ -104,12 +116,17 @@ void quick_sort(int left, int right) {
  * @return The status code indicating success or failure.
  */
 int main() {
+    initialize_array();
     printf("Input Array: ");
     display();
     printline(50);
+    clock_t  begin = clock();
     quick_sort(0, MAX-1); // start the sort out with the first and last indices of the array
+    clock_t end = clock();
+    double time_spent = (double) (end - begin) / CLOCKS_PER_SEC;
     printf("Ouput Array: ");
     display();
     printline(50);
+    printf("\nExecution Time: %f", time_spent);
     return 0;
 }
